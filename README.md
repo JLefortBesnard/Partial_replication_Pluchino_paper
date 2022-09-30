@@ -40,4 +40,4 @@ As a general conclusion, the most successful agents are almost never the most ta
 
 ## Run the code
 
-Download the file _simulation_talent.py_ and run it in a terminal with python 3+ activated
+Download the file _simulation_talent.py_ and run it in a terminal with python 3+ activated ([link code](https://github.com/JLefortBesnard/Partial_replication_Pluchino_paper/blob/main/simulation_talent.py))
