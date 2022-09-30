@@ -38,3 +38,6 @@ Furthermore, the most talented individual is actually extremely poor.
 
 As a general conclusion, the most successful agents are almost never the most talented ones, but those around the average of the Gaussian talent distribution. The model shows the importance, very frequently underestimated, of lucky events in determining the final level of individual success.
 
+## Run the code
+
+Download the file _simulation_talent.py_ and run it in a terminal with python 3+ activated
