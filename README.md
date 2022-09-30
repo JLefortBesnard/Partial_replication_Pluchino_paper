@@ -10,8 +10,9 @@ It is an agent-based model building on a small set of simple assumptions, aiming
 1000 moving individuals (_blue lines_) are randomly placed within a square world (size 1 * 1), with a talent T (which is a proxy for intelligence, skills, ability, etc.) normally distributed in the interval 0;1 around a mean of 0.6 with a standard deviation of 0.1.
 In the square world, there are also 250 randomly placed lucky events (_green triangle_) and 250 unlucky events (_red triangle_). Neutral events are not considered in their model, since they have not relevant effects on the individual life. Both lucky and unlucky events are uniformly distributed.
 
-[1000 individuals](world.png)
-[Distibution talent](talent_distribution.png)
+<img src="world.png" style="width:700px;"/>
+<img src="talent_distribution.PNG" style="width:450px;"/>
+
 
 ## A single exemple simulation
 
@@ -29,7 +30,9 @@ The previous agents' rules (including the choice of dividing the initial capital
 ### Results
 
 In the figure below, capital after the 40 years simulation is plotted as function of talent (with capital in logarithmic scale for a better visualization): it is evident that the most successful individuals are not the most talented ones. We can see that the most successful agents (green circles above the blue line) have a talent only slightly greater than the average value (0.6). 
-[Results](results.png)
+
+<img src="results.PNG" style="width:700px;"/>
+
 We can also see that only 2 individuals own more than 80% of the wealth, and that more than 40% of the individuals are poor or extremely poor.
 Furthermore, the most talented individual is actually extremely poor.
 
