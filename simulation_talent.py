@@ -24,16 +24,16 @@ import math
 
 
 class build_world:
+  # instantiate the world with individuals, positive and negative events
   def __init__(self, N, Ne):
 
-    # define people
+    # define people attributes
     self.N = N
     self.Ne = Ne
     self.people_loc = np.array([np.random.uniform(0,1,N), np.random.uniform(0,1,N)])
     self.people_talent = np.random.normal(0.6,0.1,N)
     self.people_talent[np.where(self.people_talent < 0)] = 0.6
     self.people_talent[np.where(self.people_talent > 1)] = 0.6
-
     self.people_capital = np.array([10.0] * N)
 
     # define environment
@@ -113,6 +113,7 @@ class build_world:
 
 
   def life_goes_on(self, step=0.02):
+    # make people move around
     directions = np.random.randint(0, 360, self.N)
     new_people_loc_x = []
     new_people_loc_y = []
@@ -132,6 +133,7 @@ class build_world:
     self.people_loc = np.array([new_people_loc_x, new_people_loc_y])
 
   def display_metrics(self):
+    # Plot log capital per talent as bar plot
     talent_capital = sorted(list(map(lambda x : [x[0], x[1]],zip(self.people_talent,self.people_capital))))
     talent = np.array(talent_capital).T[0]
     capital = np.log10(np.array(talent_capital).T[1])+ np.log10(np.array(talent_capital).T[1]).min() * -1
@@ -148,8 +150,7 @@ class build_world:
     plt.show()
 
   def display_results(self):
-    # talent_capital = sorted(list(map(lambda x : [x[0], x[1]],zip(self.people_talent,self.people_capital))))
-    # capital = np.array(talent_capital).T[1]
+    # Plot log capital per talent as scatter
     talent = self.people_talent
     capital = self.people_capital
     fig = plt.figure(figsize = (10, 5))
@@ -192,6 +193,7 @@ def distance_event(coord_person, coord_event):
   return np.linalg.norm(np.array(coord_person) - np.array(coord_event))
 
 def closest_event(coord_person, coord_events):
+  # return closest event if an individual is close-enough to be within several events' circles
   closest_event = None
   for coord_event in coord_events:
     if closest_event == None:
@@ -200,13 +202,12 @@ def closest_event(coord_person, coord_events):
       closest_event = coord_event
   return closest_event
 
-
-# Rewrite the y labels
-
+# build a world and display it
 run = build_world(1000, 500)
 run.display_talent()
 run.display_world()
 
+# time is flying 
 for i in range(1, 81, 1):
   if i<20:
     if i%2==0:
@@ -214,81 +215,14 @@ for i in range(1, 81, 1):
   else:
     if i%2==0:
       print("year: 20{}".format(int(i/2)))
+  # events are happening
   run.pick_closest_event()
   run.apply_event_effect()
+  # people are moving
   run.life_goes_on()
+
+# Display the world once more to make sure people moved
 run.display_world()
-# run.display_metrics()
+# Bring the truth to the world !
 run.display_results()
 
-
-
-
-
-
-
-# fig = plt.figure(figsize = (10, 5))
-# plt.title("capital per individuals")
-# plt.hist(run.people_capital, 
-#     bins=[0, 100, 250, 500,1000, 1500, 2000, 2500, 3000], 
-#     width=10, color='maroon')
-# plt.yscale('log')
-# plt.xscale('linear')
-# plt.ylabel('Nb of individuals')
-# y_ticks= [1, 10, 100, 500, 1000]
-# plt.yticks(ticks=y_ticks, labels=y_ticks)
-# plt.xlabel('Capital/talent')
-# plt.xlim(0, 3000)
-# plt.show()
-
-
-
-# f, ([ax1, ax2],[ax3, ax4]) = plt.subplots(2, 2, figsize=(10, 10)) 
-
-# talent_capital = sorted(list(map(lambda x : [x[0], x[1]],zip(run.people_talent,run.people_capital))))
-# talent = np.array(talent_capital).T[0]
-# capital = np.array(talent_capital).T[1]
-
-# # bargraph
-# ax1.scatter(talent, capital, color ='maroon')
-# ax1.axvline(np.median(run.people_talent), color='red')
-# ax1.axhline(10, color='black', linestyle='dotted')
-# ax1.set_yscale('log')
-# ax1.set_xlabel("Talent at birth")
-# ax1.set_ylabel("Capital after 40 years")
-# ax1.set_title("Capital versus talent")
-# y_ticks= [0.1, 10, 10**3, 10**11, capital.max()]
-# ax1.set_yticks(ticks=y_ticks, labels=['0.1 $', '10 $', '1000 $', '100 billions $', '1000 billions $'])
-# ax1.axis('on')
-
-
-# ax2.scatter(capital, talent, color ='green', alpha=0.5, s=3)
-# ax2.set_xscale('log')
-# ax2.set_xlabel("Capital after 40 years")
-# ax2.set_ylabel("Talent at birth")
-# ax2.set_title("Talent versus capital")
-# y_ticks= [0.3, 0.6, 0.9]
-# ax2.set_yticks(ticks=y_ticks, labels=['Low skils', 'Average skills', 'Top skills'])
-# ax2.axvline(10, color='grey')
-# ax2.axvline(capital.sum()*0.8, color='red') # 80% of the wealth
-# ax2.axvline(capital.sum()*0.1, color='blue') # 10% of the wealth
-# ax2.text(10**19, 0.9, '<- 80% ->', color='red', size=8)
-# ax2.text(10**7, 0.9, '<- 10% of the wealth ->', color='blue', size=8)
-# ax2.axis('on')
-
-
-
-# # histogram
-# ax3.hist(run.people_capital, 
-#     bins=[0, 10, 100, 250, 500,1000, 1500, 2000, 2500, 3000], 
-#     width=10, color='blue')
-# ax3.set_title("Capital distribution among population")
-# ax3.set_yscale('log')
-# ax3.set_ylabel('Nb of individuals')
-# y_ticks= [1, 10, 100, 500, 1000]
-# ax3.set_yticks(ticks=y_ticks, labels=y_ticks)
-# ax3.set_xlabel('Capital/sucess')
-# ax3.set_xlim(0, 3000)
-
-# plt.tight_layout()
-# plt.show()
